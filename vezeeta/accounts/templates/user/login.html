@@ -1,0 +1,28 @@
+{% extends 'base.html'%}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block body %}
+<div dir="rtl">
+    <div class="container">
+        <div class="signup">
+        <div class="col-md-9" >
+            <form method="POST" enctype="multipart/form-data">
+                <h4 class="auth-header">تسجيل الدخول</h4>
+                <div class="form-group">
+                    {{form.username|as_crispy_field  }}
+                </div>
+                <div class="form-group">
+                    {{form.password|as_crispy_field }}
+                </div>
+                <div class="buttons-w  "><button type="submit" class="btn btn-success ml-5">تسجيل</button>
+                <button type="submit" class="btn btn-info  ml-5"><a href="">Github</a></button>
+    
+                <button type="submit" class="btn btn-primary  ml-5"><a href="">facebook</a></button>
+            </div>
+            </form>
+        </div>
+        </div>
+    </div>
+    </div>
+    
+{% endblock%}

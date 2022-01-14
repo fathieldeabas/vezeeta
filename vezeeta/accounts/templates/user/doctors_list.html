@@ -26,16 +26,16 @@
                                 </div>
                                 <div class="jobs_conetent">
                                     <a href=""><h5>دكتور </h5></a>
-                                    <h6>subtitle</h6>
+                                    <h6>{{ doctor.Profile.name}}</h6>
                                     
                                     <div class="links_locat">
                                         <div class="location">
-                                            <p> <i class="fas fa-briefcase-medical"></i> دكتور <span style="color: blue;">doctor</span> متخصص في <span style="color: blue;">Specialist_doctor</span></p>
-                                            <p> <i class="fa fa-map-marker"></i>address : address_detail</p>
-                                            <p> <i class="fa fa-map-marker"></i> الكشف : <span style="color: blue;">price</span> جنية</p>
-                                            <p> <i class="fa fa-clock-o"></i> مدة الانتظار : <span style="color: blue;">Waiting_time</span> ساعه</p>
-                                            <p> <i class="fa fa-clock-o"></i> عدد ساعات العمل : <span style="color: blue;">working_hours</span> ساعه</p>
-                                            <p> <i class="fa fa-clock-o"></i>سعر المكالمه العادية  :<span style="color: blue;"> number_phone </span>  </p>
+                                            <p> <i class="fas fa-briefcase-medical"></i> دكتور  {{ doctor.Profile.doctor }}<span style="color: blue;"></span> متخصص في  {{ doctor.Profile.specialist_doctor}}<span style="color: blue;"></span></p>
+                                            <p> <i class="fa fa-map-marker"></i>address : {{ doctor.Profile.address_details}}</p>
+                                            <p> <i class="fa fa-map-marker"></i> الكشف : <span style="color: blue;">{{ doctor.Profile.price}}</span> جنية </p>
+                                            <p> <i class="fa fa-clock-o"></i> مدة الانتظار : <span style="color: blue;">{{ doctor.Profile.waiting_time}}</span> ساعه </p>
+                                            <p> <i class="fa fa-clock-o"></i> عدد ساعات العمل : <span style="color: blue;">{{ doctor.Profile.working_hours}}</span> ساعه </p>
+                                            <p> <i class="fa fa-clock-o"></i>سعر المكالمه العادية  :<span style="color: blue;"> {{ doctor.Profile.number_phone}}</span>  </p>
 
 
                                         </div>
