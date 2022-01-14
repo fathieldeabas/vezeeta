@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.db.models.signals import post_save
+from django.utils.text import slugify
 # Create your models here.#
 class Profile(models.Model):
     user= models.OneToOneField(User,verbose_name=_("user"),on_delete=models.CASCADE, related_name="Profile")
@@ -12,7 +13,12 @@ class Profile(models.Model):
     who_i= models.TextField(_("من انا:"),max_length=250 ,null=True)
     price = models.IntegerField(_(":سعر الكشف"),null=True)
     image = models.ImageField(_("الضوره الشخصيه:"), upload_to="profile" ,null=True)
+    slug= models.CharField(_("slug"),blank=True,null=True,max_length=50)
 
+    def save(self, *args, **kwargs):
+        if not self.slug :
+            self.slug= slugify(self.user.username) 
+        super(Profile, self).save(*args, **kwargs) # Call the real save() method
     class Meta:
         verbose_name = _("Profile")
         verbose_name_plural = _("Profiles")
