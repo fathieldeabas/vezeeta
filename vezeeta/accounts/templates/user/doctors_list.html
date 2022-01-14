@@ -12,12 +12,16 @@
 
             <div class="job_lists">
                 <div class="row">
+                    {% for doctor in doctors %}
                     <div class="col-lg-10 col-md-10" style="height: 16rem;" >
                         <div class="single_jobs white-bg d-flex justify-content-between">
                             <div class="jobs_left d-flex align-items-center">
                                 <div >
-                                    
+                                        {% if doctor.Profile.image%}
+                                        <img  src="{{ doctor.Profile.image.url}}" alt="" width="100" height="100">
+                                        {% else %}
                                         <img  src="{% static 'img/candiateds/2.png'%}" alt="" width="100" height="100">
+                                        {% endif %}
                                         
                                 </div>
                                 <div class="jobs_conetent">
@@ -59,9 +63,10 @@
                             </div>
                             
                         </div>
+              
                     </div>
 
-
+                    {% endfor %} 
                 </div>
             </div>
         </div>

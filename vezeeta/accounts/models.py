@@ -1,3 +1,5 @@
+from distutils.command.upload import upload
+from email.mime import image
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
@@ -7,6 +9,7 @@ class Profile(models.Model):
     name= models.CharField(_("الاسم :"),max_length=50)
     who_i= models.TextField(_("من انا:"),max_length=250)
     price = models.IntegerField(_(":سعر الكشف"))
+    image = models.ImageField(_("الضوره الشخصيه:"), upload_to="profile")
 
     class Meta:
         verbose_name = _("Profile")
