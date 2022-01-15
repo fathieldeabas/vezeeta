@@ -3,7 +3,7 @@ from django.shortcuts import render ,redirect
 from django.contrib.auth.models import User
 from .models import Profile
 from .forms import Login_Form ,Update_Profile,UserCreationForms,Update_Profile2
-from django.contrib.auth import authenticate ,login
+from django.contrib.auth import authenticate ,login,logout
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 def docter_list(request):
@@ -64,3 +64,8 @@ def signup(request):
         print("rrrr")
         form= UserCreationForms()
     return render(request,"user/signup.html",{"form": form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('accounts:login')
