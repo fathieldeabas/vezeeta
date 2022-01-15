@@ -5,6 +5,8 @@ from pyexpat import model
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import Profile
+
 
 class Login_Form(forms.ModelForm):
     username= forms.CharField(label='الاسم')
@@ -33,3 +35,18 @@ class Update_Profile( forms.ModelForm):
     class Meta:
         model=User
         fields=('first_name','last_name','email')
+
+class Update_Profile2(forms.ModelForm):
+    
+    class Meta:
+        model=Profile
+        fields=('name','subtitle',
+        'address','address_details' ,
+        'number_phone',
+        'working_hours',
+        'waiting_time',
+        'doctor',
+        'specialist_doctor'
+        ,'who_i',
+        'price','image'
+        ,'facebook','twitter','google')

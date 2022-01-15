@@ -2,7 +2,7 @@ from curses.ascii import US
 from django.shortcuts import render ,redirect
 from django.contrib.auth.models import User
 from .models import Profile
-from .forms import Login_Form ,Update_Profile,UserCreationForms
+from .forms import Login_Form ,Update_Profile,UserCreationForms,Update_Profile2
 from django.contrib.auth import authenticate ,login
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -37,12 +37,17 @@ def profile(request):
 
 def update_profile(request):
     user_form =Update_Profile(instance=request.user)
+    user_form2 =Update_Profile2(instance=request.user)
+
     if request.method == "POST":
         user_form =Update_Profile(request.POST, instance= request.user)
-        if user_form.is_valid():
+        user_form2 =Update_Profile2(request.POST,request.FILES, instance= request.user)
+
+        if user_form.is_valid() and user_form2.is_valid():
             user_form.save()
+            user_form2.save()
             return redirect('accounts:doctors')
-    return render(request,"user/update_profile.html",{"user_form":user_form})
+    return render(request,"user/update_profile.html",{"user_form":user_form,'user_form2':user_form2})
 
 def signup(request):
     if request.method == "POST":
