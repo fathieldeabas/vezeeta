@@ -2,7 +2,7 @@ from curses.ascii import US
 from django.shortcuts import render ,redirect
 from django.contrib.auth.models import User
 from .models import Profile
-from .forms import Login_Form ,Update_Profile,UserCreationForms,Update_Profile2
+from .forms import Login_Form ,Update_Profile,UserCreationForms,Update_Profile2,order_form
 from django.contrib.auth import authenticate ,login,logout
 from django.contrib.auth.decorators import login_required
 # Create your views here.
@@ -66,6 +66,12 @@ def signup(request):
     return render(request,"user/signup.html",{"form": form})
 
 
-def logout_view(request):
+def logout_view(request): 
     logout(request)
     return redirect('accounts:login')
+
+
+def make_order(request,slug):
+    form=order_form()
+    doctors_details= Profile.objects.get(slug=slug)
+    return render(request,"user/make_order.html",{"doctors_details": doctors_details,"form":form})

@@ -5,7 +5,7 @@ from pyexpat import model
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile
+from .models import Profile, Order
 
 
 class Login_Form(forms.ModelForm):
@@ -50,3 +50,10 @@ class Update_Profile2(forms.ModelForm):
         ,'who_i',
         'price','image'
         ,'facebook','twitter','google')
+
+
+class order_form(forms.ModelForm):
+    
+    class Meta:
+        model=Order
+        fields=("patient","date")

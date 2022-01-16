@@ -55,3 +55,22 @@ def create_profile(sender, **kwargs):
         Profile.objects.create(user=kwargs['instance'])
 
 post_save.connect(create_profile,sender=User)   
+
+
+doctor_date=(
+
+    ("1","1"),
+    ("2","2"),("3","3"),("4","4"),("5","5"),("6","6"),("7","7"),
+)
+
+
+class Order(models.Model):
+    patient=models.CharField(_("اسم المريض:"),max_length=50,null=True)
+    completed= models.BooleanField()
+    profile= models.ForeignKey(Profile, on_delete=models.CASCADE)
+    date= models.CharField(_("المعاد:"),choices=doctor_date, max_length=50)
+
+
+    def __str__(self):
+        return  self.profile
+    
