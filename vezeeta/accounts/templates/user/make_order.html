@@ -38,10 +38,71 @@
                         <label for="email">ادخل حسابك لو امكن:</label>
                         <input type="email" id="email" name="email" rows="1" cols="30"> 
                         <h4 class="auth-header">   لتاكيد الحجز برجاء الدفع باستخدام الفيزا او حساب  paypal</h4>
+                </form>
+            </div>
+        </div>
+    
+    </div>
+    </div>
+    
 
-                        <div id="paypal-button-container"> <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+                            <div id="paypal-button-container" style="text-align:center;">
 
+                            <!-- Include the PayPal JavaScript SDK -->
+                            <script src="https://www.paypal.com/sdk/js?client-id=AZRumrxJ55Q-fND5ujZmblzIaHD4VBjoruIvUcBTaYhZQTgFt0XFjIaMEKGeYX-fpphzfTbx9bROLnvM&currency=USD"></script>
+                        
                             <script>
+
+                                
+	 	function getCookie(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = cookies[i].trim();
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getCookie('csrftoken');
+
+       
+
+	 	function completeOrder(){
+            var url = "{% url 'accounts:order_complete' %}";
+            var total='{{ doctors_details.price}}';
+            var doctor='{{ doctors_details}}';
+            var data= document.getElementById("s3").value;
+            var patient= document.getElementById("s1").value;
+            console.log(doctor,data,patient)
+
+	 		fetch(url, {
+	 			method:'POST',
+	 			headers:{
+	 				'Content-type':'application/json',
+	 				'X-CSRFToken':csrftoken,
+	 			},
+	 			body:JSON.stringify({'patient':patient,'doctor':doctor,'date':date})
+	 		})
+	 	}
+
+
+
+
+
+
+
+
+
+
+
+                                var total='{{ doctors_details.price}}';
+
                                 // Render the PayPal button into #paypal-button-container
                                 paypal.Buttons({
                         
@@ -50,7 +111,7 @@
                                         return actions.order.create({
                                             purchase_units: [{
                                                 amount: {
-                                                    value: '88.44'
+                                                    value: total
                                                 }
                                             }]
                                         });
@@ -62,6 +123,9 @@
                                             // Successful capture! For demo purposes:
                                             console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
                                             var transaction = orderData.purchase_units[0].payments.captures[0];
+                                       
+            
+                                            completeOrder()
                                             alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
                         
                                             // Replace the above to show a success message within this page, e.g.
@@ -74,14 +138,6 @@
                         
                         
                                 }).render('#paypal-button-container');
-                            </script></div>
-
-               
-                </div>
-                </form>
-            </div>
-        </div>
-    
-    </div>
-    </div>
+                            </script>
+                        </div>
 {% endblock %}

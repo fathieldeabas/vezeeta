@@ -75,3 +75,8 @@ def make_order(request,slug):
     form=order_form()
     doctors_details= Profile.objects.get(slug=slug)
     return render(request,"user/make_order.html",{"doctors_details": doctors_details,"form":form})
+
+
+
+def order_complete(request):
+    print('comlete')
