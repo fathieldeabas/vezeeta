@@ -69,8 +69,10 @@ class Order(models.Model):
     completed= models.BooleanField()
     profile= models.ForeignKey(Profile, on_delete=models.CASCADE)
     date= models.CharField(_("المعاد:"),choices=doctor_date, max_length=50)
+    time_order=models.TimeField(_("وقت تنفيذ الاوردر"), auto_now=False, auto_now_add=True)
+    patient_email=models.CharField(_("حساب المريض:"),max_length=50,null=True)
 
 
     def __str__(self):
-        return  self.profile
+        return  self.patient
     

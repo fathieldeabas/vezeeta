@@ -1,10 +1,12 @@
 from curses.ascii import US
+import json
 from django.shortcuts import render ,redirect
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile , Order
 from .forms import Login_Form ,Update_Profile,UserCreationForms,Update_Profile2,order_form
 from django.contrib.auth import authenticate ,login,logout
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 # Create your views here.
 def docter_list(request):
     doctors= User.objects.all()
@@ -80,3 +82,17 @@ def make_order(request,slug):
 
 def order_complete(request):
     print('comlete')
+    body = json.loads(request.body)
+   
+    print(body)
+    
+    print(body['patient'])
+    print(body['date'])
+    print(body['email'])
+
+
+    
+    profile=Profile.objects.get(user=body['doctor'])
+    Order.objects.create(patient=body['patient'],profile=profile,date=body['date'],patient_email=body['email'],completed=True)
+     
+    return JsonResponse({"payment completed":body})

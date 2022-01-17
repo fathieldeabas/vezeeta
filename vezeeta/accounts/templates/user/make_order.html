@@ -53,7 +53,11 @@
                         
                             <script>
 
-                                
+        var patient= document.getElementById("s1").value
+        var select = document.getElementById('s3');
+        var date = select.options[select.selectedIndex].value;
+        var email= document.getElementById("email").value
+        console.log(patient)               
 	 	function getCookie(name) {
 		    var cookieValue = null;
 		    if (document.cookie && document.cookie !== '') {
@@ -73,26 +77,24 @@
 
        
 
-	 	function completeOrder(){
+        async function completeOrder(){
             var url = "{% url 'accounts:order_complete' %}";
             var total='{{ doctors_details.price}}';
-            var doctor='{{ doctors_details}}';
-            var data= document.getElementById("s3").value;
-            var patient= document.getElementById("s1").value;
-            console.log(doctor,data,patient)
-
-	 		fetch(url, {
+            var doctor='{{ doctors_details.id}}';
+           
+            data={doctor:doctor,patient:patient,date:date,email:email}
+            await fetch(url, {
 	 			method:'POST',
 	 			headers:{
 	 				'Content-type':'application/json',
 	 				'X-CSRFToken':csrftoken,
 	 			},
-	 			body:JSON.stringify({'patient':patient,'doctor':doctor,'date':date})
+	 			body:JSON.stringify(data)
 	 		})
 	 	}
 
 
-
+           
 
 
 
