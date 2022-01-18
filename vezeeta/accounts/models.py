@@ -1,4 +1,5 @@
 from distutils.command.upload import upload
+import email
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
@@ -19,10 +20,11 @@ class Profile(models.Model):
         ("طب الأعصاب وجراحتها","طب الأعصاب وجراحتها")
               
               )
+    gover=(("الإسكندرية","الإسكندرية"),("أسوان","أسوان"),("الدقهلية","الدقهلية"),("الغربية","الغربية"),("القاهرة","القاهرة"),("مطروح","مطروح"))
     user= models.OneToOneField(User,verbose_name=_("user"),on_delete=models.CASCADE, related_name="Profile")
     name= models.CharField(_("الاسم :"),max_length=50,null=True)
     subtitle= models.CharField(_("نبذه عنك:") ,max_length=50, null=True)
-    address = models.CharField(_("المحافطه:") , max_length=50, null=True)
+    address = models.CharField(_("المحافطه:") ,choices=gover, max_length=50, null=True)
     address_details= models.CharField(_("العنوان بالتفاصيل:"),max_length=50, null=True)
     number_phone = models.IntegerField(_("الهاتف:"), null=True)
     working_hours= models.CharField(_("عدد ساعات العمل:"),max_length=50)
@@ -76,3 +78,16 @@ class Order(models.Model):
     def __str__(self):
         return  self.patient
     
+
+
+
+class Comments(models.Model):
+    doctor = models.ForeignKey(Profile, null=True, on_delete=models.CASCADE)
+    comment = models.CharField(_("تعليقك .."),max_length=200)
+    name= models.CharField(_("الاسم :"),max_length=50,null=True)
+    email = models.CharField(_("الايميل"),max_length=100,null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.comment

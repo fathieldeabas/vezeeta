@@ -7,12 +7,15 @@ from .forms import Login_Form ,Update_Profile,UserCreationForms,Update_Profile2,
 from django.contrib.auth import authenticate ,login,logout
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from .filter import DoctorFilter
 # Create your views here.
 def docter_list(request):
-    doctors= User.objects.all()
+    _doctors= Profile.objects.all()
+    filter = DoctorFilter(request.GET, queryset=_doctors)
+    doctors = filter.qs
     # doctors= Profile.objects.all()
     print(doctors)
-    return render(request,"user/doctors_list.html",{"doctors": doctors})
+    return render(request,"user/doctors_list.html",{"doctors": doctors, "filter":filter})
 
 def docter_details(request,slug):
     doctors_details= Profile.objects.get(slug=slug)
