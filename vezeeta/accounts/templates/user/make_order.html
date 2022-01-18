@@ -53,11 +53,8 @@
                         
                             <script>
 
-        var patient= document.getElementById("s1").value
-        var select = document.getElementById('s3');
-        var date = select.options[select.selectedIndex].value;
-        var email= document.getElementById("email").value
-        console.log(patient)               
+                                
+
 	 	function getCookie(name) {
 		    var cookieValue = null;
 		    if (document.cookie && document.cookie !== '') {
@@ -73,16 +70,17 @@
 		    }
 		    return cookieValue;
 		}
-		var csrftoken = getCookie('csrftoken');
-
-       
-
+		var csrftoken = getCookie('csrftoken');      
         async function completeOrder(){
             var url = "{% url 'accounts:order_complete' %}";
             var total='{{ doctors_details.price}}';
             var doctor='{{ doctors_details.id}}';
-           
-            data={doctor:doctor,patient:patient,date:date,email:email}
+            var e = document.getElementById("s3");
+            var date = e.options[e.selectedIndex].text;
+            var patient= document.getElementById("s1").value;
+            var email= document.getElementById("email").value;
+            const data={'patient':patient,'doctor':doctor,'date':date, 'email':email}
+     
             await fetch(url, {
 	 			method:'POST',
 	 			headers:{
@@ -91,18 +89,7 @@
 	 			},
 	 			body:JSON.stringify(data)
 	 		})
-	 	}
-
-
-           
-
-
-
-
-
-
-
-
+        }
                                 var total='{{ doctors_details.price}}';
 
                                 // Render the PayPal button into #paypal-button-container
