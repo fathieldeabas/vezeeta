@@ -95,4 +95,5 @@ def order_complete(request):
     profile=Profile.objects.get(user=body['doctor'])
     Order.objects.create(patient=body['patient'],profile=profile,date=body['date'],patient_email=body['email'],completed=True)
      
-    return JsonResponse({"payment completed":body})
+    return redirect('accounts:doctors')
+

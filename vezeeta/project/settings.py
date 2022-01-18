@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'accounts',
     'crispy_forms',
     "bootstrap4",
+    "contact",
+
 ]
 
 MIDDLEWARE = [
@@ -135,3 +137,9 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL="accounts:login"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_PORT="587"
+EMAIL_HOST_USER="feldeabas@gmail.com"
+EMAIL_HOST_PASSWORD="earwujikhnfyoqak"
+EMAIL_USE_TLS=True

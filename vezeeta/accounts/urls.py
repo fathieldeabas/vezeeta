@@ -11,8 +11,7 @@ urlpatterns = [
     path("update_profile/", views.update_profile, name="update_profile"),
     path("make_order/<slug:slug>/",views.make_order, name="make_order"),
     path("order_complete/",views.order_complete, name="order_complete"),
-
-    
+    # path("contact_us/", views.contact_us, name="contact_us"),
     path("<slug:slug>/",views.docter_details, name="doctors_details"),
 
 ]
