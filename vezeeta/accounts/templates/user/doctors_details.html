@@ -1,11 +1,15 @@
 
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
 {% load static%}
 
 {% block body %}
 <div dir="rtl">
-    {% include "user/search.html"%}
-<div class="job_details_area">
+{% include "user/search.html"%}
+
+    
+    <div class="job_details_area">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
@@ -89,34 +93,40 @@
                         <img class="media-object" src="img/avatar.png" alt="">
                     </div>
                     <div class="media-body " >
-                        <div class="media-heading">
-                            <h4>اسم الكاتب</h4>
-                            <span class="time">تم التعليق في </span>
-                        </div>
+                        
                         <p>الكومنتات</p>
-                        <a href="#" class="reply">الردود ..</a>
+                        
     
                         <!-- comment -->
                         <div class="media">
                             <div class="media-left">
                                 <img class="media-object" src="" alt="">
                             </div>
-                            <div class="media-body">
-                                <div class="media-heading">
-                                    <h4>فتحي يحيي فوزي</h4>
-                                    <span class="time">تم التعليق فى </span>
-                                </div>
-                                <p>شكرا جدا واتمنى ان تتصفح باقي المواضيع .....</p>
-                            </div>
+                            
                         </div>
                         <!-- /comment -->
                     </div>
                 </div>
                 <!-- /comment -->
     
-                <div class="media-heading">
-                    <h4>لا يوجد تعليقات حتى الأن ..</h4>
-                </div>
+               
+                <h4>الكاتب:</h4>
+                <p> التعليق:</p>
+                            
+                                {% for comment in comments %}
+                            <h4>{{comment.name}}</h4>
+                           
+                            <p>
+                                {{ comment.comment|linebreaks }}
+                            </p>
+                            
+                            {% empty %}
+                            
+                            <h4>لا يوجد تعليقات حتى الأن ..</h4>
+                             
+                            {% endfor %}
+                        
+               
     
             </div>
         </div>
@@ -124,22 +134,22 @@
         <div class="apply_job_form white-bg">
             <h4>إترك تعليقك</h4>
             <form method="POST" >
-    
+                {% csrf_token %}
                 <div class="row">
                     <div class="col-md-6">
                         <div class="input_field">
-                            <input type="text"  placeholder=" الإسم">
+                            {{commentform.name|as_crispy_field  }}
                             
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="input_field">
-                            <input type="text"  placeholder=" الإيميل">
+                            {{commentform.email|as_crispy_field  }}
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div class="input_field">
-                            <textarea  cols="30" rows="10" placeholder="تعليقك .."></textarea>
+                            {{commentform.comment|as_crispy_field  }}
                         </div>
                     </div>
                     <div class="col-md-12">
@@ -209,5 +219,6 @@
     </div>
     </div>
     </div>
+
 </div>
 {% endblock %}

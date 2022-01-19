@@ -1,13 +1,16 @@
 from curses.ascii import US
+from email import message
 import json
 from django.shortcuts import render ,redirect
 from django.contrib.auth.models import User
-from .models import Profile , Order
-from .forms import Login_Form ,Update_Profile,UserCreationForms,Update_Profile2,order_form
+from .models import Profile , Order,Comments
+from .forms import Login_Form ,Update_Profile,UserCreationForms,Update_Profile2,order_form,CommentForm
 from django.contrib.auth import authenticate ,login,logout
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .filter import DoctorFilter
+from django.core.mail import send_mail
+from django.conf import settings
 # Create your views here.
 def docter_list(request):
     _doctors= Profile.objects.all()
@@ -18,8 +21,38 @@ def docter_list(request):
     return render(request,"user/doctors_list.html",{"doctors": doctors, "filter":filter})
 
 def docter_details(request,slug):
+    new_comment = None
     doctors_details= Profile.objects.get(slug=slug)
-    return render(request,"user/doctors_details.html",{"doctors_details": doctors_details})
+
+    if request.method == 'POST':
+        
+        # ######################## To Add Comments ##############################        
+        commentform = CommentForm(data=request.POST)
+        if commentform.is_valid():
+            # Create Comment object but don't save to database yet          
+            new_comment = commentform.save(commit=False)
+            # Assign the current post to the comment
+            new_comment.doctor = doctors_details
+            # Save the comment to the database
+            new_comment.save()
+            commentform = CommentForm()
+
+        ###############################################
+    
+        
+    else:
+        commentform = CommentForm()
+        
+    comments =Comments.objects.filter(doctor=doctors_details.id)
+    context = {
+        
+        'commentform': commentform,
+        'new_comment': new_comment,
+        
+        'comments': comments,
+        }
+
+    return render(request,"user/doctors_details.html",{"doctors_details": doctors_details,'commentform': commentform,'comments': comments,})
 
 def login_user(request):
     if request.method == "POST":
@@ -92,11 +125,17 @@ def order_complete(request):
     print(body['patient'])
     print(body['date'])
     print(body['email'])
-
+    subject="vezeeta"
+    message= "\n {0}{1}".format(" استاذ "+body['patient'] + ""," لقد تم حجز معاد الساعه:"+body['date'])
 
     
     profile=Profile.objects.get(user=body['doctor'])
     Order.objects.create(patient=body['patient'],profile=profile,date=body['date'],patient_email=body['email'],completed=True)
-     
+    send_mail(
+            subject,
+            message,
+            settings.EMAIL_HOST_USER,
+            [body['email']],
+        )
     return redirect('accounts:doctors')
 

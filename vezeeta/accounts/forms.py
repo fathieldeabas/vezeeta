@@ -5,7 +5,7 @@ from pyexpat import model
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile, Order
+from .models import Profile, Order,Comments
 
 
 class Login_Form(forms.ModelForm):
@@ -57,3 +57,8 @@ class order_form(forms.ModelForm):
     class Meta:
         model=Order
         fields=("patient","date")
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comments
+        fields = ('comment',"name","email")
