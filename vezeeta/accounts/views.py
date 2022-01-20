@@ -1,19 +1,22 @@
 from curses.ascii import US
 from email import message
+import email
 import json
 from django.shortcuts import render ,redirect
 from django.contrib.auth.models import User
-from .models import Profile , Order,Comments
-from .forms import Login_Form ,Update_Profile,UserCreationForms,Update_Profile2,order_form,CommentForm
+from .models import Profile , Order,Comments,rate
+from .forms import Login_Form ,Update_Profile,UserCreationForms,Update_Profile2,order_form,CommentForm,RateForm
 from django.contrib.auth import authenticate ,login,logout
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from .filter import DoctorFilter
 from django.core.mail import send_mail
 from django.conf import settings
+from django.db.models import Avg
 # Create your views here.
 def docter_list(request):
     _doctors= Profile.objects.all()
+    print(_doctors)
     filter = DoctorFilter(request.GET, queryset=_doctors)
     doctors = filter.qs
     # doctors= Profile.objects.all()
@@ -25,8 +28,36 @@ def docter_details(request,slug):
     doctors_details= Profile.objects.get(slug=slug)
 
     if request.method == 'POST':
+        _email= request.POST["email"]
+        order_name=Order.objects.filter(patient_email=_email,profile=doctors_details).first()
+        in_rate= rate.objects.filter(email=_email,doctor=doctors_details).first()
         
-        # ######################## To Add Comments ##############################        
+        if in_rate is  None :
+            if order_name is not  None :
+
+                print(in_rate)
+        # ######################## To Add rate ##############################    
+
+                rateForm=RateForm(data= request.POST) 
+                if rateForm.is_valid():
+                    new_rate=rateForm.save(commit=False)
+                    new_rate.order = order_name
+                    new_rate.doctor=doctors_details
+                    new_rate.save()
+                    rateForm=RateForm()
+                    message="شكرا علي تقيمك"
+
+            else:
+                rateForm=RateForm()
+                message="لم يمكن التقييم بدون حجز عند الدكتور"
+
+
+        else:
+            rateForm=RateForm()
+            message="لقد تم التقيم مسبقا"
+
+        # ######################## To Add Comments ##############################    
+
         commentform = CommentForm(data=request.POST)
         if commentform.is_valid():
             # Create Comment object but don't save to database yet          
@@ -36,23 +67,20 @@ def docter_details(request,slug):
             # Save the comment to the database
             new_comment.save()
             commentform = CommentForm()
-
+        else:
+            pass
         ###############################################
     
         
     else:
+        message=None
         commentform = CommentForm()
+        rateForm=RateForm()
         
     comments =Comments.objects.filter(doctor=doctors_details.id)
-    context = {
-        
-        'commentform': commentform,
-        'new_comment': new_comment,
-        
-        'comments': comments,
-        }
+   
 
-    return render(request,"user/doctors_details.html",{"doctors_details": doctors_details,'commentform': commentform,'comments': comments,})
+    return render(request,"user/doctors_details.html",{"doctors_details": doctors_details,'commentform': commentform,'comments': comments,"rateForm":rateForm,"message":message,})
 
 def login_user(request):
     if request.method == "POST":
@@ -117,18 +145,9 @@ def make_order(request,slug):
 
 
 def order_complete(request):
-    print('comlete')
-    body = json.loads(request.body)
    
-    print(body)
-    
-    print(body['patient'])
-    print(body['date'])
-    print(body['email'])
-    subject="vezeeta"
-    message= "\n {0}{1}".format(" استاذ "+body['patient'] + ""," لقد تم حجز معاد الساعه:"+body['date'])
-
-    
+    body = json.loads(request.body)
+    message= "\n {0}{1}".format(" استاذ "+body['patient'] + ""," لقد تم حجز معاد الساعه:"+body['date']) 
     profile=Profile.objects.get(user=body['doctor'])
     Order.objects.create(patient=body['patient'],profile=profile,date=body['date'],patient_email=body['email'],completed=True)
     send_mail(

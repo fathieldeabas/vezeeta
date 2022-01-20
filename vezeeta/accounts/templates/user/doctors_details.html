@@ -159,6 +159,34 @@
                     </div>
                 </div>
             </form>
+            <form method="POST" >
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input_field">
+                            {{rateForm.email|as_crispy_field  }}
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input_field">
+                            {{rateForm.rate_doctor|as_crispy_field  }}
+                        </div>
+                    </div>
+                    {% if message != None %}
+                    <div class="col-md-6">
+                        <div class="input_field">
+                            <p> {{message}}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="col-md-12">
+                        <div class="submit_btn">
+                            <button class="boxed-btn3 w-100" type="submit">تقيم</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
             </div>
             <div class="col-lg-4">
@@ -207,10 +235,27 @@
                                 styles: grayStyles,
                                 scrollwheel:  false
                             });
+
+                            const marker = new google.maps.Marker({
+                                position: {lat: -31.197, lng: 150.744},
+                                map: map,
+                              });
+
+                              const infowindow = new google.maps.InfoWindow({
+                                content: "<h3>{{doctors_details.address_details}}</h3>",
+                              });
+                            
+                                marker.addListener("click", () => {
+                                infowindow.open({
+                                  anchor: marker,
+                                  map,
+                                });
+                              });
+                            
                             }
                             
                         </script>
-                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&callback=initMap"></script>
+                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCGJMvnSgyusBgoFBvic3e5iMmrLlC0Rpc&callback=initMap"></script>
                         
                         </div>
                 </div>

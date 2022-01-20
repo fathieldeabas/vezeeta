@@ -38,6 +38,8 @@ class Profile(models.Model):
     facebook = models.CharField(max_length=100,null=True)
     twitter = models.CharField(max_length=100,null=True)
     google = models.CharField(max_length=100,null=True)
+    lat=models.FloatField(_(":خطوط العرض"),null=True)
+    lng=models.FloatField(_(":خطوظ الطول"),null=True)
 
 
     def save(self, *args, **kwargs):
@@ -69,7 +71,7 @@ doctor_date=(
 class Order(models.Model):
     patient=models.CharField(_("اسم المريض:"),max_length=50,null=True)
     completed= models.BooleanField()
-    profile= models.ForeignKey(Profile, on_delete=models.CASCADE)
+    profile= models.ForeignKey(Profile, on_delete=models.CASCADE,related_name="order")
     date= models.CharField(_("المعاد:"),choices=doctor_date, max_length=50)
     time_order=models.TimeField(_("وقت تنفيذ الاوردر"), auto_now=False, auto_now_add=True)
     patient_email=models.CharField(_("حساب المريض:"),max_length=50,null=True)
@@ -78,7 +80,6 @@ class Order(models.Model):
     def __str__(self):
         return  self.patient
     
-
 
 
 class Comments(models.Model):
@@ -91,3 +92,19 @@ class Comments(models.Model):
 
     def __str__(self):
         return self.comment
+
+rate_list=(("1","1"),("2","2"),("3","3"),("4","4"),("5","5"))
+
+class rate (models.Model):
+    order = models.ForeignKey(Order, null=True, on_delete=models.CASCADE,)
+    doctor = models.ForeignKey(Profile, null=True, on_delete=models.CASCADE,related_name="rate")
+    email = models.CharField(_("الايميل"),max_length=100,null=True)
+    rate_doctor = models.CharField(_("تقيم .."),choices=rate_list,max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return self.email
+
+   

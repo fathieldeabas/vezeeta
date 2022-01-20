@@ -54,13 +54,13 @@
                                     
                                     <div class="links_locat">
                                         <div class="location">
-                                            <p> <i class="fas fa-briefcase-medical"></i> دكتور  {{ doctor.doctor }}<span style="color: blue;"></span> متخصص في  {{ doctor.Profile.specialist_doctor}}<span style="color: blue;"></span></p>
+                                            <p> <i class="fas fa-briefcase-medical"></i> دكتور  {{ doctor.doctor }}<span style="color: blue;"></span> متخصص في  {{ doctor.specialist_doctor}}<span style="color: blue;"></span></p>
                                             <p> <i class="fa fa-map-marker"></i>العنوان : {{ doctor.address_details}}</p>
                                             <p> <i class="fa fa-map-marker"></i> الكشف : <span style="color: blue;">{{ doctor.price}}</span> جنية </p>
                                             <p> <i class="fa fa-clock-o"></i> مدة الانتظار : <span style="color: blue;">{{ doctor.waiting_time}}</span> ساعه </p>
                                             <p> <i class="fa fa-clock-o"></i> عدد ساعات العمل : <span style="color: blue;">{{ doctor.working_hours}}</span> ساعه </p>
                                             <p> <i class="fa fa-clock-o"></i>سعر المكالمه العادية  :<span style="color: blue;"> {{ doctor.number_phone}}</span>  </p>
-
+                                                <h3>{{doctor.rate.doctor}}</h3>
 
                                         </div>
                                     </div>

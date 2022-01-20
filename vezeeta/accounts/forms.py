@@ -5,7 +5,7 @@ from pyexpat import model
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Profile, Order,Comments
+from .models import Profile, Order,Comments,rate
 
 
 class Login_Form(forms.ModelForm):
@@ -49,7 +49,7 @@ class Update_Profile2(forms.ModelForm):
         'specialist_doctor'
         ,'who_i',
         'price','image'
-        ,'facebook','twitter','google')
+        ,'facebook','twitter','google',"lat","lng")
 
 
 class order_form(forms.ModelForm):
@@ -62,3 +62,7 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comments
         fields = ('comment',"name","email")
+class RateForm(forms.ModelForm):
+    class Meta:
+        model = rate
+        fields = ('rate_doctor',"email",)
