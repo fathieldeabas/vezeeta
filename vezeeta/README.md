@@ -12,6 +12,9 @@ We simulated the most famous site  to book a doctor for examination.
 * you can make a review/commment any doctor.
 * you can pay with paypal or creidtcard.
 * you can contact the page's admin.
+* you can view doctor's location within google maps.
+
+
 
 ##  what doctors can do 
 * you can signup/login/logout .
@@ -72,6 +75,7 @@ We simulated the most famous site  to book a doctor for examination.
 ![alt text](https://github.com/fathieldeabas/vezeeta/blob/main/vezeeta/images/Screenshot%20from%202022-01-21%2020-28-20.png)
 ![alt text](https://github.com/fathieldeabas/vezeeta/blob/main/vezeeta/images/Screenshot%20from%202022-01-21%2014-30-02.png)
 ![alt text](https://github.com/fathieldeabas/vezeeta/blob/main/vezeeta/images/Screenshot%20from%202022-01-21%2014-29-40.png)
+![alt text](https://github.com/fathieldeabas/vezeeta/blob/main/vezeeta/images/Screenshot%20from%202022-01-21%2014-33-48.png)
 
 
 
