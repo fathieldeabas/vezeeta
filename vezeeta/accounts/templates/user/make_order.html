@@ -94,13 +94,18 @@
 
                                 // Render the PayPal button into #paypal-button-container
                                 paypal.Buttons({
+
+                                    style: {
+                                        color:  'blue',
+                                        shape:  'rect',
+                                    },
                         
                                     // Set up the transaction
                                     createOrder: function(data, actions) {
                                         return actions.order.create({
                                             purchase_units: [{
                                                 amount: {
-                                                    value: total
+                                                    value:parseFloat(total).toFixed(2)
                                                 }
                                             }]
                                         });
@@ -115,7 +120,7 @@
                                        
             
                                             completeOrder()
-                                            alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+                                            alert('Transaction '+ transaction.status + ': ' + transaction.id + '\n\n');
                         
                                             // Replace the above to show a success message within this page, e.g.
                                             // const element = document.getElementById('paypal-button-container');
