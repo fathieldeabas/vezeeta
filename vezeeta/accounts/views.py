@@ -2,6 +2,7 @@ from curses.ascii import US
 from email import message
 import email
 import json
+from math import ceil, floor
 from django.shortcuts import render ,redirect
 from django.contrib.auth.models import User
 from .models import Profile , Order,Comments,rate
@@ -16,10 +17,26 @@ from django.db.models import Avg
 # Create your views here.
 def docter_list(request):
     _doctors= Profile.objects.all()
-    print(_doctors)
+    
     filter = DoctorFilter(request.GET, queryset=_doctors)
     doctors = filter.qs
     # doctors= Profile.objects.all()
+    for doctor in doctors:
+        
+        print(doctor.rate.all())
+        a=doctor.rate.all()
+        average=0
+        sum=0
+        for rate in a:
+            print(rate.rate_doctor)
+            sum=sum+int(rate.rate_doctor)
+            print("#################")
+        if len(a)==0:
+            average=0
+        else:
+            average=sum/len(a)
+        print(ceil(average))
+        doctor.ff=ceil(average)
     print(doctors)
     return render(request,"user/doctors_list.html",{"doctors": doctors, "filter":filter})
 

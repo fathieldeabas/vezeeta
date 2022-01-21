@@ -38,8 +38,8 @@ class Profile(models.Model):
     facebook = models.CharField(max_length=100,null=True)
     twitter = models.CharField(max_length=100,null=True)
     google = models.CharField(max_length=100,null=True)
-    lat=models.FloatField(_(":خطوط العرض"),null=True)
-    lng=models.FloatField(_(":خطوظ الطول"),null=True)
+    lat=models.FloatField(_(":خطوط العرض"),null=True ,default=0)
+    lng=models.FloatField(_(":خطوظ الطول"),null=True, default=0)
 
 
     def save(self, *args, **kwargs):

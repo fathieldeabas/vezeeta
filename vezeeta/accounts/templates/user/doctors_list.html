@@ -60,7 +60,8 @@
                                             <p> <i class="fa fa-clock-o"></i> مدة الانتظار : <span style="color: blue;">{{ doctor.waiting_time}}</span> ساعه </p>
                                             <p> <i class="fa fa-clock-o"></i> عدد ساعات العمل : <span style="color: blue;">{{ doctor.working_hours}}</span> ساعه </p>
                                             <p> <i class="fa fa-clock-o"></i>سعر المكالمه العادية  :<span style="color: blue;"> {{ doctor.number_phone}}</span>  </p>
-                                                <h3>{{doctor.rate.doctor}}</h3>
+                                                <h3>{{doctor.ff}}</h3>
+                                                
 
                                         </div>
                                     </div>
@@ -72,13 +73,22 @@
                                 </div>
 
                                 <div class="rating">
+                                    
                                     <div class="text-warning">
+                                        {% if doctor.ff %}
+                                        {% with ''|center:doctor.ff as range %}
+                                        {% for _ in range %}
+
                                         <!-- to make image category for clinic image -->
                                         <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
+                                        {% endfor %}
+                                        {% endwith %}
+                                        {% else %}
+                                            <p>
+                                                لا يوجد تقييم  حتي الان
+                                            </p>
+                                        {% endif %}
+
                                         </div>
                                     <div class="rating" >
                                         <h5>تقييم الدكتور</h5>

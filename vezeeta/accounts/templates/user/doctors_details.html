@@ -217,8 +217,12 @@
                     <div class="job_lok_inner">
                         <div id="map" style="height: 200px;"></div>
                         <script>
+                            var lat1={{doctors_details.lat}};
+                            var lng1={{doctors_details.lng}};
+                            console.log(lat1)
+
                             function initMap() {
-                            var uluru = {lat: -25.363, lng: 131.044};
+                            var uluru = { lat: lat1, lng: lng1 };
                             var grayStyles = [
                                 {
                                 featureType: "all",
@@ -230,14 +234,14 @@
                                 {elementType: 'labels.text.fill', stylers: [{color: '#ccdee9'}]}
                             ];
                             var map = new google.maps.Map(document.getElementById('map'), {
-                                center: {lat: -31.197, lng: 150.744},
+                                center:{lat: lat1, lng: lng1},
                                 zoom: 9,
                                 styles: grayStyles,
                                 scrollwheel:  false
                             });
 
                             const marker = new google.maps.Marker({
-                                position: {lat: -31.197, lng: 150.744},
+                                position: {lat: lat1, lng: lng1},
                                 map: map,
                               });
 
